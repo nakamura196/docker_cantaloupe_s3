@@ -6,11 +6,23 @@ services:
       CANTALOUPE_ENDPOINT_ADMIN_SECRET: my_admin_pass
       CANTALOUPE_SOURCE_STATIC: S3Source
       CANTALOUPE_S3SOURCE_ACCESS_KEY_ID: ${CANTALOUPE_S3SOURCE_ACCESS_KEY_ID}
+      CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME: ${CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME}
+      CANTALOUPE_S3SOURCE_ENDPOINT: ${CANTALOUPE_S3SOURCE_ENDPOINT}
+      CANTALOUPE_S3SOURCE_LOOKUP_STRATEGY: BasicLookupStrategy # Or another strategy if needed
       CANTALOUPE_S3SOURCE_SECRET_KEY: ${CANTALOUPE_S3SOURCE_SECRET_KEY}
       CANTALOUPE_S3SOURCE_REGION: ${CANTALOUPE_S3SOURCE_REGION}
-      CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME: ${CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME}
-      CANTALOUPE_S3SOURCE_LOOKUP_STRATEGY: BasicLookupStrategy # Or another strategy if needed
     restart: always
+    labels:
+      traefik.enable: true
+      traefik.http.routers.cantaloupe.rule: Host(`can.aws.ldas.jp`)
+      traefik.http.routers.cantaloupe.entrypoints: websecure
+      traefik.http.routers.cantaloupe.tls.certresolver: myresolver
+    networks:
+      - traefik-network
     # comment in to enable access to cantaloupe on port 8182, including admin interface
     ports:
       - 8182:8182
+
+networks:
+  traefik-network:
+    external: true

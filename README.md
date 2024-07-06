@@ -12,6 +12,10 @@ cd docker_cantaloupe_s3
 Edit `.env` file based on `.env.sample`.
 
 ```
+# aws s3
+CANTALOUPE_S3SOURCE_ENDPOINT=
+# mdx.jp
+# CANTALOUPE_S3SOURCE_ENDPOINT=https://s3ds.mdx.jp
 CANTALOUPE_S3SOURCE_ACCESS_KEY_ID=
 CANTALOUPE_S3SOURCE_SECRET_KEY=
 CANTALOUPE_S3SOURCE_REGION=
