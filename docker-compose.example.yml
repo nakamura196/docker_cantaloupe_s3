@@ -1,0 +1,39 @@
+services:
+  cantaloupe:
+    image: islandora/cantaloupe:2.0.10
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+    env_file:
+      - .env
+    environment:
+      CANTALOUPE_ENDPOINT_ADMIN_ENABLED: "false"
+      CANTALOUPE_SOURCE_STATIC: S3Source
+      CANTALOUPE_S3SOURCE_LOOKUP_STRATEGY: BasicLookupStrategy
+    ports:
+      - "127.0.0.1:8182:8182"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8182/ -o /dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik-network
+      traefik.http.routers.cantaloupe.rule: Host(`${CANTALOUPE_DOMAIN}`)
+      traefik.http.routers.cantaloupe.entrypoints: websecure
+      traefik.http.routers.cantaloupe.tls.certresolver: myresolver
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    external: true

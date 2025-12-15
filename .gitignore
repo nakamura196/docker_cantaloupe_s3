@@ -1,2 +1,11 @@
+# OS
 .DS_Store
+
+# Environment files (contain credentials)
 .env
+.env.prod
+.env.local
+
+# Docker Compose (use docker-compose.example.yml as template)
+docker-compose.yml
+docker-compose.prod.yml
