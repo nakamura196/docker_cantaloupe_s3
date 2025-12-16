@@ -1,6 +1,10 @@
 # OS
 .DS_Store
 
+# Local IAM policy files
+iam-policy.json
+apprunner-access-role-trust.json
+
 # Environment files (contain credentials)
 .env
 .env.prod
